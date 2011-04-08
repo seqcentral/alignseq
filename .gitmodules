@@ -1,0 +1,3 @@
+[submodule "oauthsimple"]
+	path = oauthsimple
+	url = https://github.com/jrconlin/oauthsimple.git
