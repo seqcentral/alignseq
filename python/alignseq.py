@@ -6,7 +6,7 @@ class AlignSeq(object):
     NUCL_SEQ = 1
     PROT_SEQ = 2
 
-    VERSION = '1.0-rc1'
+    VERSION = '1.0-rc2'
     SERVER = 'http://api.seqcentral.com/alignseq'
 
     url = ''
@@ -30,7 +30,7 @@ class AlignSeq(object):
      # Parameters:
      #    method - _string_ (Required) The HTTP request method type: 'get', 'post', 'put', or 'delete'
      #    url - _string_ (Required) The url to direct the request to.
-     #    opt - _array_ (Required) An associative array of parameters whose keys depend on the URI accessed.
+     #    opt - _array_ (Optional) An associative array of parameters whose keys depend on the URI accessed.
      #
      # Returns:
      #    Object containing parsed Response
@@ -119,11 +119,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     User List Response
@@ -201,8 +198,8 @@ class AlignSeq(object):
     def delete_user( self, user_id ):
         return self.delete("users/%d" % (user_id))
 
-     # Method: list_user_administrators
-     #     Retrieve list of administrators for this user
+     # Method: list_user_users
+     #     Retrieve list of users that have special access to this user
      #
      # Access:
      #     Public
@@ -212,18 +209,15 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
-     #     Administrator List Response
-    def list_user_administrators( self, user_id, opt = {} ):
-        return self.get("users/%d/administrators" % (user_id), opt)
+     #     User List Response
+    def list_user_users( self, user_id, opt = {} ):
+        return self.get("users/%d/users" % (user_id), opt)
 
-     # Method: add_user_administrator
+     # Method: add_user_user
      #     Add admin to user
      #
      # Access:
@@ -231,14 +225,14 @@ class AlignSeq(object):
      #
      # Parameters:
      #    user_id - _integer_ (Required) The ser identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    admin_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def add_user_administrator( self, user_id, administrator_id ):
-        return self.put("users/%d/administrators/%d" % (user_id, administrator_id))
+     #     User List Response
+    def add_user_user( self, user_id, admin_id ):
+        return self.put("users/%d/users/%d" % (user_id, admin_id))
 
-     # Method: remove_user_administrator
+     # Method: remove_user_user
      #     Remove admin from user
      #
      # Access:
@@ -246,15 +240,15 @@ class AlignSeq(object):
      #
      # Parameters:
      #    user_id - _integer_ (Required) The ser identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    admin_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def remove_user_administrator( self, user_id, administrator_id ):
-        return self.delete("users/%d/administrators/%d" % (user_id, administrator_id))
+     #     User List Response
+    def remove_user_user( self, user_id, admin_id ):
+        return self.delete("users/%d/users/%d" % (user_id, admin_id))
 
      # Method: list_user_collaborations
-     #     Retrieve list of collaborations this user is a member of
+     #     Retrieve list of collaborations that have special access to this user
      #
      # Access:
      #     Public
@@ -264,16 +258,43 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Collaboration List Response
     def list_user_collaborations( self, user_id, opt = {} ):
         return self.get("users/%d/collaborations" % (user_id), opt)
+
+     # Method: add_user_collaboration
+     #     Add collaborations to user
+     #
+     # Access:
+     #     Public
+     #
+     # Parameters:
+     #    user_id - _integer_ (Required) The ser identifier.
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
+     #
+     # Returns:
+     #     Collaboration List Response
+    def add_user_collaboration( self, user_id, collaboration_id ):
+        return self.put("users/%d/collaborations/%d" % (user_id, collaboration_id))
+
+     # Method: remove_user_collaboration
+     #     Remove collaborations from user
+     #
+     # Access:
+     #     Public
+     #
+     # Parameters:
+     #    user_id - _integer_ (Required) The ser identifier.
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
+     #
+     # Returns:
+     #     Collaboration List Response
+    def remove_user_collaboration( self, user_id, collaboration_id ):
+        return self.delete("users/%d/collaborations/%d" % (user_id, collaboration_id))
 
      # Method: list_user_jobs
      #     Retrieve list of jobs this user has access to
@@ -286,11 +307,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Job List Response
@@ -308,11 +326,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Dataset List Response
@@ -330,11 +345,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Executable List Response
@@ -351,11 +363,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Collaboration List Response
@@ -428,60 +437,8 @@ class AlignSeq(object):
     def delete_collaboration( self, collaboration_id ):
         return self.delete("collaborations/%d" % (collaboration_id))
 
-     # Method: list_collaboration_administrators
-     #     Retrieve list of administrators for this collaboration
-     #
-     # Access:
-     #     Public
-     #
-     # Parameters:
-     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-     #
-     # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
-     #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-     #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
-     #
-     # Returns:
-     #     Administrator List Response
-    def list_collaboration_administrators( self, collaboration_id, opt = {} ):
-        return self.get("collaborations/%d/administrators" % (collaboration_id), opt)
-
-     # Method: add_collaboration_administrator
-     #     Add admin to collaboration
-     #
-     # Access:
-     #     Public
-     #
-     # Parameters:
-     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
-     #
-     # Returns:
-     #     Administrator List Response
-    def add_collaboration_administrator( self, collaboration_id, administrator_id ):
-        return self.put("collaborations/%d/administrators/%d" % (collaboration_id, administrator_id))
-
-     # Method: remove_collaboration_administrator
-     #     Remove admin from collaboration
-     #
-     # Access:
-     #     Public
-     #
-     # Parameters:
-     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
-     #
-     # Returns:
-     #     Administrator List Response
-    def remove_collaboration_administrator( self, collaboration_id, administrator_id ):
-        return self.delete("collaborations/%d/administrators/%d" % (collaboration_id, administrator_id))
-
      # Method: list_collaboration_users
-     #     Retrieve list of users this collaboration has access to
+     #     Retrieve list of users that have special access to this collaboration
      #
      # Access:
      #     Public
@@ -491,11 +448,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     User List Response
@@ -503,7 +457,7 @@ class AlignSeq(object):
         return self.get("collaborations/%d/users" % (collaboration_id), opt)
 
      # Method: add_collaboration_user
-     #     Add user to collaboration
+     #     Add admin to collaboration
      #
      # Access:
      #     Public
@@ -518,7 +472,7 @@ class AlignSeq(object):
         return self.put("collaborations/%d/users/%d" % (collaboration_id, user_id))
 
      # Method: remove_collaboration_user
-     #     Remove user from collaboration
+     #     Remove admin from collaboration
      #
      # Access:
      #     Public
@@ -532,8 +486,8 @@ class AlignSeq(object):
     def remove_collaboration_user( self, collaboration_id, user_id ):
         return self.delete("collaborations/%d/users/%d" % (collaboration_id, user_id))
 
-     # Method: list_collaboration_jobs
-     #     Retrieve list of jobs this collaboration has access to
+     # Method: list_collaboration_collaborations
+     #     Retrieve list of collaborations that have special access to this collaborations
      #
      # Access:
      #     Public
@@ -543,150 +497,43 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
-     #     Job List Response
-    def list_collaboration_jobs( self, collaboration_id, opt = {} ):
-        return self.get("collaborations/%d/jobs" % (collaboration_id), opt)
+     #     Collaboration List Response
+    def list_collaboration_collaborations( self, collaboration_id, opt = {} ):
+        return self.get("collaborations/%d/collaborations" % (collaboration_id), opt)
 
-     # Method: add_collaboration_job
-     #     Add job to collaboration
+     # Method: add_collaboration_collaboration
+     #     Add collaborations to collaborations
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    job_id - _integer_ (Required) The ob identifier.
+     #    collaboration_id2 - _integer_ (Required) The ollaboration identifier.
      #
      # Returns:
-     #     Job List Response
-    def add_collaboration_job( self, collaboration_id, job_id ):
-        return self.put("collaborations/%d/jobs/%d" % (collaboration_id, job_id))
+     #     Collaboration List Response
+    def add_collaboration_collaboration( self, collaboration_id, collaboration_id2 ):
+        return self.put("collaborations/%d/collaborations/%d" % (collaboration_id, collaboration_id2))
 
-     # Method: remove_collaboration_job
-     #     Remove job from collaboration
+     # Method: remove_collaboration_collaboration
+     #     Remove collaborations from collaborations
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    job_id - _integer_ (Required) The ob identifier.
+     #    collaboration_id2 - _integer_ (Required) The ollaboration identifier.
      #
      # Returns:
-     #     Job List Response
-    def remove_collaboration_job( self, collaboration_id, job_id ):
-        return self.delete("collaborations/%d/jobs/%d" % (collaboration_id, job_id))
-
-     # Method: list_collaboration_datasets
-     #     Retrieve list of datasets this collaboration has access to
-     #
-     # Access:
-     #     Public
-     #
-     # Parameters:
-     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-     #
-     # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
-     #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-     #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
-     #
-     # Returns:
-     #     Dataset List Response
-    def list_collaboration_datasets( self, collaboration_id, opt = {} ):
-        return self.get("collaborations/%d/datasets" % (collaboration_id), opt)
-
-     # Method: add_collaboration_dataset
-     #     Add dataset to collaboration
-     #
-     # Access:
-     #     Public
-     #
-     # Parameters:
-     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    dataset_id - _integer_ (Required) The ataset identifier.
-     #
-     # Returns:
-     #     Dataset List Response
-    def add_collaboration_dataset( self, collaboration_id, dataset_id ):
-        return self.put("collaborations/%d/datasets/%d" % (collaboration_id, dataset_id))
-
-     # Method: remove_collaboration_dataset
-     #     Remove dataset from collaboration
-     #
-     # Access:
-     #     Public
-     #
-     # Parameters:
-     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    dataset_id - _integer_ (Required) The ataset identifier.
-     #
-     # Returns:
-     #     Dataset List Response
-    def remove_collaboration_dataset( self, collaboration_id, dataset_id ):
-        return self.delete("collaborations/%d/datasets/%d" % (collaboration_id, dataset_id))
-
-     # Method: list_collaboration_executables
-     #     Retrieve list of executables this collaboration has access to
-     #
-     # Access:
-     #     Public
-     #
-     # Parameters:
-     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-     #
-     # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
-     #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-     #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
-     #
-     # Returns:
-     #     Executable List Response
-    def list_collaboration_executables( self, collaboration_id, opt = {} ):
-        return self.get("collaborations/%d/executables" % (collaboration_id), opt)
-
-     # Method: add_collaboration_executable
-     #     Add executable to collaboration
-     #
-     # Access:
-     #     Public
-     #
-     # Parameters:
-     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    executable_id - _integer_ (Required) The xecutable identifier.
-     #
-     # Returns:
-     #     Executable List Response
-    def add_collaboration_executable( self, collaboration_id, executable_id ):
-        return self.put("collaborations/%d/executables/%d" % (collaboration_id, executable_id))
-
-     # Method: remove_collaboration_executable
-     #     Remove executable from collaboration
-     #
-     # Access:
-     #     Public
-     #
-     # Parameters:
-     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
-     #    executable_id - _integer_ (Required) The xecutable identifier.
-     #
-     # Returns:
-     #     Executable List Response
-    def remove_collaboration_executable( self, collaboration_id, executable_id ):
-        return self.delete("collaborations/%d/executables/%d" % (collaboration_id, executable_id))
+     #     Collaboration List Response
+    def remove_collaboration_collaboration( self, collaboration_id, collaboration_id2 ):
+        return self.delete("collaborations/%d/collaborations/%d" % (collaboration_id, collaboration_id2))
 
      # Method: list_jobs
      #     Retrieve list of jobs
@@ -698,11 +545,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Job List Response
@@ -785,8 +629,8 @@ class AlignSeq(object):
     def delete_job( self, job_id ):
         return self.delete("jobs/%d" % (job_id))
 
-     # Method: list_job_administrators
-     #     Retrieve list of administrators for this job
+     # Method: list_job_users
+     #     Retrieve list of users that have special access to this jobs
      #
      # Access:
      #     Public
@@ -796,49 +640,46 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
-     #     Administrator List Response
-    def list_job_administrators( self, job_id, opt = {} ):
-        return self.get("jobs/%d/administrators" % (job_id), opt)
+     #     User List Response
+    def list_job_users( self, job_id, opt = {} ):
+        return self.get("jobs/%d/users" % (job_id), opt)
 
-     # Method: add_job_administrator
-     #     Add admin to job
+     # Method: add_job_user
+     #     Add admin to jobs
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    job_id - _integer_ (Required) The ob identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    user_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def add_job_administrator( self, job_id, administrator_id ):
-        return self.put("jobs/%d/administrators/%d" % (job_id, administrator_id))
+     #     User List Response
+    def add_job_user( self, job_id, user_id ):
+        return self.put("jobs/%d/users/%d" % (job_id, user_id))
 
-     # Method: remove_job_administrator
-     #     Remove admin from job
+     # Method: remove_job_user
+     #     Remove admin from jobs
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    job_id - _integer_ (Required) The ob identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    user_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def remove_job_administrator( self, job_id, administrator_id ):
-        return self.delete("jobs/%d/administrators/%d" % (job_id, administrator_id))
+     #     User List Response
+    def remove_job_user( self, job_id, user_id ):
+        return self.delete("jobs/%d/users/%d" % (job_id, user_id))
 
      # Method: list_job_collaborations
-     #     Retrieve list of collaborations this job is part of
+     #     Retrieve list of collaborations that have special access to this jobs
      #
      # Access:
      #     Public
@@ -848,60 +689,43 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Collaboration List Response
     def list_job_collaborations( self, job_id, opt = {} ):
         return self.get("jobs/%d/collaborations" % (job_id), opt)
 
-     # Method: list_job_datasets
-     #     Retrieve list of datasets this job used
+     # Method: add_job_collaboration
+     #     Add collaborations to jobs
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    job_id - _integer_ (Required) The ob identifier.
-     #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-     #
-     # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
-     #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-     #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
      #
      # Returns:
-     #     Dataset List Response
-    def list_job_datasets( self, job_id, opt = {} ):
-        return self.get("jobs/%d/datasets" % (job_id), opt)
+     #     Collaboration List Response
+    def add_job_collaboration( self, job_id, collaboration_id ):
+        return self.put("jobs/%d/collaborations/%d" % (job_id, collaboration_id))
 
-     # Method: list_job_executables
-     #     Retrieve list of executables this job used
+     # Method: remove_job_collaboration
+     #     Remove collaborations from jobs
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    job_id - _integer_ (Required) The ob identifier.
-     #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-     #
-     # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
-     #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-     #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
      #
      # Returns:
-     #     Executable List Response
-    def list_job_executables( self, job_id, opt = {} ):
-        return self.get("jobs/%d/executables" % (job_id), opt)
+     #     Collaboration List Response
+    def remove_job_collaboration( self, job_id, collaboration_id ):
+        return self.delete("jobs/%d/collaborations/%d" % (job_id, collaboration_id))
 
      # Method: list_job_hits
      #     Retrieve list of hits this job created
@@ -914,11 +738,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Hit List Response
@@ -935,12 +756,9 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    datatype - _integer_ (Optional) Type of data represented by sequences in dataset: 1 = nucleotide, 2 = protein
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Dataset List Response
@@ -1021,8 +839,8 @@ class AlignSeq(object):
     def delete_dataset( self, dataset_id ):
         return self.delete("datasets/%d" % (dataset_id))
 
-     # Method: list_dataset_administrators
-     #     Retrieve list of administrators for this dataset
+     # Method: list_dataset_users
+     #     Retrieve list of users that have special access to this datasets
      #
      # Access:
      #     Public
@@ -1032,49 +850,46 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
-     #     Administrator List Response
-    def list_dataset_administrators( self, dataset_id, opt = {} ):
-        return self.get("datasets/%d/administrators" % (dataset_id), opt)
+     #     User List Response
+    def list_dataset_users( self, dataset_id, opt = {} ):
+        return self.get("datasets/%d/users" % (dataset_id), opt)
 
-     # Method: add_dataset_administrator
-     #     Add admin to dataset
+     # Method: add_dataset_user
+     #     Add admin to datasets
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    dataset_id - _integer_ (Required) The ataset identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    user_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def add_dataset_administrator( self, dataset_id, administrator_id ):
-        return self.put("datasets/%d/administrators/%d" % (dataset_id, administrator_id))
+     #     User List Response
+    def add_dataset_user( self, dataset_id, user_id ):
+        return self.put("datasets/%d/users/%d" % (dataset_id, user_id))
 
-     # Method: remove_dataset_administrator
-     #     Remove admin from dataset
+     # Method: remove_dataset_user
+     #     Remove admin from datasets
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    dataset_id - _integer_ (Required) The ataset identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    user_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def remove_dataset_administrator( self, dataset_id, administrator_id ):
-        return self.delete("datasets/%d/administrators/%d" % (dataset_id, administrator_id))
+     #     User List Response
+    def remove_dataset_user( self, dataset_id, user_id ):
+        return self.delete("datasets/%d/users/%d" % (dataset_id, user_id))
 
      # Method: list_dataset_collaborations
-     #     Retrieve list of collaborations this dataset is a part of
+     #     Retrieve list of collaborations that have special access to this datasets
      #
      # Access:
      #     Public
@@ -1084,38 +899,43 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Collaboration List Response
     def list_dataset_collaborations( self, dataset_id, opt = {} ):
         return self.get("datasets/%d/collaborations" % (dataset_id), opt)
 
-     # Method: list_dataset_jobs
-     #     Retrieve list of jobs that used this dataset
+     # Method: add_dataset_collaboration
+     #     Add collaborations to datasets
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    dataset_id - _integer_ (Required) The ataset identifier.
-     #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-     #
-     # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
-     #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-     #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
      #
      # Returns:
-     #     Job List Response
-    def list_dataset_jobs( self, dataset_id, opt = {} ):
-        return self.get("datasets/%d/jobs" % (dataset_id), opt)
+     #     Collaboration List Response
+    def add_dataset_collaboration( self, dataset_id, collaboration_id ):
+        return self.put("datasets/%d/collaborations/%d" % (dataset_id, collaboration_id))
+
+     # Method: remove_dataset_collaboration
+     #     Remove collaborations from datasets
+     #
+     # Access:
+     #     Public
+     #
+     # Parameters:
+     #    dataset_id - _integer_ (Required) The ataset identifier.
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
+     #
+     # Returns:
+     #     Collaboration List Response
+    def remove_dataset_collaboration( self, dataset_id, collaboration_id ):
+        return self.delete("datasets/%d/collaborations/%d" % (dataset_id, collaboration_id))
 
      # Method: list_dataset_sequences
      #     Retrieve list of sequences this dataset contains
@@ -1128,11 +948,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Sequence List Response
@@ -1149,14 +966,11 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    datatype_query - _integer_ (Optional) todo
      #    datatype_target - _integer_ (Optional) todo
      #    institution - _string_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Executable List Response
@@ -1243,8 +1057,8 @@ class AlignSeq(object):
     def delete_executable( self, executable_id ):
         return self.delete("executables/%d" % (executable_id))
 
-     # Method: list_executable_administrators
-     #     Retrieve list of administrators for this executable
+     # Method: list_executable_users
+     #     Retrieve list of users that have special access to this executables
      #
      # Access:
      #     Public
@@ -1254,49 +1068,46 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
-     #     Administrator List Response
-    def list_executable_administrators( self, executable_id, opt = {} ):
-        return self.get("executables/%d/administrators" % (executable_id), opt)
+     #     User List Response
+    def list_executable_users( self, executable_id, opt = {} ):
+        return self.get("executables/%d/users" % (executable_id), opt)
 
-     # Method: add_executable_administrator
-     #     Add admin to executable
+     # Method: add_executable_user
+     #     Add admin to executables
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    executable_id - _integer_ (Required) The xecutable identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    user_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def add_executable_administrator( self, executable_id, administrator_id ):
-        return self.put("executables/%d/administrators/%d" % (executable_id, administrator_id))
+     #     User List Response
+    def add_executable_user( self, executable_id, user_id ):
+        return self.put("executables/%d/users/%d" % (executable_id, user_id))
 
-     # Method: remove_executable_administrator
-     #     Remove admin from executable
+     # Method: remove_executable_user
+     #     Remove admin from executables
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    executable_id - _integer_ (Required) The xecutable identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    user_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def remove_executable_administrator( self, executable_id, administrator_id ):
-        return self.delete("executables/%d/administrators/%d" % (executable_id, administrator_id))
+     #     User List Response
+    def remove_executable_user( self, executable_id, user_id ):
+        return self.delete("executables/%d/users/%d" % (executable_id, user_id))
 
      # Method: list_executable_collaborations
-     #     Retrieve list of collaborations this executable is a part of
+     #     Retrieve list of collaborations that have special access to this executables
      #
      # Access:
      #     Public
@@ -1306,38 +1117,43 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Collaboration List Response
     def list_executable_collaborations( self, executable_id, opt = {} ):
         return self.get("executables/%d/collaborations" % (executable_id), opt)
 
-     # Method: list_executable_jobs
-     #     Retrieve list of executables this job is a part of
+     # Method: add_executable_collaboration
+     #     Add collaborations to executables
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    executable_id - _integer_ (Required) The xecutable identifier.
-     #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-     #
-     # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
-     #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-     #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
      #
      # Returns:
-     #     Job List Response
-    def list_executable_jobs( self, executable_id, opt = {} ):
-        return self.get("executables/%d/jobs" % (executable_id), opt)
+     #     Collaboration List Response
+    def add_executable_collaboration( self, executable_id, collaboration_id ):
+        return self.put("executables/%d/collaborations/%d" % (executable_id, collaboration_id))
+
+     # Method: remove_executable_collaboration
+     #     Remove collaborations from executables
+     #
+     # Access:
+     #     Public
+     #
+     # Parameters:
+     #    executable_id - _integer_ (Required) The xecutable identifier.
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
+     #
+     # Returns:
+     #     Collaboration List Response
+    def remove_executable_collaboration( self, executable_id, collaboration_id ):
+        return self.delete("executables/%d/collaborations/%d" % (executable_id, collaboration_id))
 
      # Method: list_sequences
      #     Retrieve list of sequences
@@ -1349,11 +1165,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Sequence List Response
@@ -1406,8 +1219,8 @@ class AlignSeq(object):
     def delete_sequence( self, sequence_id ):
         return self.delete("sequences/%d" % (sequence_id))
 
-     # Method: list_sequence_administrators
-     #     Retrieve list of administrators for this sequence
+     # Method: list_sequence_users
+     #     Retrieve list of users that have special access to this sequences
      #
      # Access:
      #     Public
@@ -1417,49 +1230,46 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
-     #     Administrator List Response
-    def list_sequence_administrators( self, sequence_id, opt = {} ):
-        return self.get("sequences/%d/administrators" % (sequence_id), opt)
+     #     User List Response
+    def list_sequence_users( self, sequence_id, opt = {} ):
+        return self.get("sequences/%d/users" % (sequence_id), opt)
 
-     # Method: add_sequence_administrator
-     #     Add admin to sequence
+     # Method: add_sequence_user
+     #     Add admin to sequences
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    sequence_id - _integer_ (Required) The equence identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    user_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def add_sequence_administrator( self, sequence_id, administrator_id ):
-        return self.put("sequences/%d/administrators/%d" % (sequence_id, administrator_id))
+     #     User List Response
+    def add_sequence_user( self, sequence_id, user_id ):
+        return self.put("sequences/%d/users/%d" % (sequence_id, user_id))
 
-     # Method: remove_sequence_administrator
-     #     Remove admin from sequence
+     # Method: remove_sequence_user
+     #     Remove admin from sequences
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    sequence_id - _integer_ (Required) The equence identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    user_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def remove_sequence_administrator( self, sequence_id, administrator_id ):
-        return self.delete("sequences/%d/administrators/%d" % (sequence_id, administrator_id))
+     #     User List Response
+    def remove_sequence_user( self, sequence_id, user_id ):
+        return self.delete("sequences/%d/users/%d" % (sequence_id, user_id))
 
      # Method: list_sequence_collaborations
-     #     Retrieve list of collaborations this sequence is a part of
+     #     Retrieve list of collaborations that have special access to this sequences
      #
      # Access:
      #     Public
@@ -1469,38 +1279,43 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Collaboration List Response
     def list_sequence_collaborations( self, sequence_id, opt = {} ):
         return self.get("sequences/%d/collaborations" % (sequence_id), opt)
 
-     # Method: list_sequence_datasets
-     #     Retrieve list of datasets this sequence is a part of
+     # Method: add_sequence_collaboration
+     #     Add collaborations to sequences
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    sequence_id - _integer_ (Required) The equence identifier.
-     #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-     #
-     # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
-     #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-     #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
      #
      # Returns:
-     #     Dataset List Response
-    def list_sequence_datasets( self, sequence_id, opt = {} ):
-        return self.get("sequences/%d/datasets" % (sequence_id), opt)
+     #     Collaboration List Response
+    def add_sequence_collaboration( self, sequence_id, collaboration_id ):
+        return self.put("sequences/%d/collaborations/%d" % (sequence_id, collaboration_id))
+
+     # Method: remove_sequence_collaboration
+     #     Remove collaborations from sequences
+     #
+     # Access:
+     #     Public
+     #
+     # Parameters:
+     #    sequence_id - _integer_ (Required) The equence identifier.
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
+     #
+     # Returns:
+     #     Collaboration List Response
+    def remove_sequence_collaboration( self, sequence_id, collaboration_id ):
+        return self.delete("sequences/%d/collaborations/%d" % (sequence_id, collaboration_id))
 
      # Method: list_hits
      #     Retrieve list of hits
@@ -1512,11 +1327,8 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Hit List Response
@@ -1537,8 +1349,8 @@ class AlignSeq(object):
     def get_hit( self, hit_id ):
         return self.get("hits/%d" % (hit_id))
 
-     # Method: list_hit_administrators
-     #     Retrieve list of administrators for this hit
+     # Method: list_hit_users
+     #     Retrieve list of users that have special access to this hits
      #
      # Access:
      #     Public
@@ -1548,49 +1360,46 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
-     #     Administrator List Response
-    def list_hit_administrators( self, hit_id, opt = {} ):
-        return self.get("hits/%d/administrators" % (hit_id), opt)
+     #     User List Response
+    def list_hit_users( self, hit_id, opt = {} ):
+        return self.get("hits/%d/users" % (hit_id), opt)
 
-     # Method: add_hit_administrator
-     #     Add admin to hit
+     # Method: add_hit_user
+     #     Add admin to hits
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    hit_id - _integer_ (Required) The it identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    user_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def add_hit_administrator( self, hit_id, administrator_id ):
-        return self.put("hits/%d/administrators/%d" % (hit_id, administrator_id))
+     #     User List Response
+    def add_hit_user( self, hit_id, user_id ):
+        return self.put("hits/%d/users/%d" % (hit_id, user_id))
 
-     # Method: remove_hit_administrator
-     #     Remove admin from hit
+     # Method: remove_hit_user
+     #     Remove admin from hits
      #
      # Access:
      #     Public
      #
      # Parameters:
      #    hit_id - _integer_ (Required) The it identifier.
-     #    administrator_id - _integer_ (Required) The dministrator identifier.
+     #    user_id - _integer_ (Required) The ser identifier.
      #
      # Returns:
-     #     Administrator List Response
-    def remove_hit_administrator( self, hit_id, administrator_id ):
-        return self.delete("hits/%d/administrators/%d" % (hit_id, administrator_id))
+     #     User List Response
+    def remove_hit_user( self, hit_id, user_id ):
+        return self.delete("hits/%d/users/%d" % (hit_id, user_id))
 
      # Method: list_hit_collaborations
-     #     Retrieve list of collaborations this hit is a part of
+     #     Retrieve list of collaborations that have special access to this hits
      #
      # Access:
      #     Public
@@ -1600,14 +1409,41 @@ class AlignSeq(object):
      #    opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
      #
      # Keys for the opt parameter:
-     #    created - _boolean_ (Optional) todo
      #    page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
      #    page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-     #    public - _boolean_ (Optional) todo
-     #    shared - _boolean_ (Optional) todo
      #
      # Returns:
      #     Collaboration List Response
     def list_hit_collaborations( self, hit_id, opt = {} ):
         return self.get("hits/%d/collaborations" % (hit_id), opt)
+
+     # Method: add_hit_collaboration
+     #     Add collaborations to hits
+     #
+     # Access:
+     #     Public
+     #
+     # Parameters:
+     #    hit_id - _integer_ (Required) The it identifier.
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
+     #
+     # Returns:
+     #     Collaboration List Response
+    def add_hit_collaboration( self, hit_id, collaboration_id ):
+        return self.put("hits/%d/collaborations/%d" % (hit_id, collaboration_id))
+
+     # Method: remove_hit_collaboration
+     #     Remove collaborations from hits
+     #
+     # Access:
+     #     Public
+     #
+     # Parameters:
+     #    hit_id - _integer_ (Required) The it identifier.
+     #    collaboration_id - _integer_ (Required) The ollaboration identifier.
+     #
+     # Returns:
+     #     Collaboration List Response
+    def remove_hit_collaboration( self, hit_id, collaboration_id ):
+        return self.delete("hits/%d/collaborations/%d" % (hit_id, collaboration_id))
 
