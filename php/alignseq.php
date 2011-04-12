@@ -7,7 +7,7 @@ class AlignSeq {
 	const NUCL_SEQ = 1;
 	const PROT_SEQ = 2;
 
-	const VERSION = '1.0-rc1';
+	const VERSION = '1.0-rc2';
 	const SERVER = 'http://api.seqcentral.com/alignseq';
 
 	public $url = '';
@@ -129,11 +129,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	User List Response
@@ -226,8 +223,8 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_user_administrators
-	 * 	Retrieve list of administrators for this user
+	 * Method: list_user_users
+	 * 	Retrieve list of users that have special access to this user
 	 *
 	 * Access:
 	 * 	Public
@@ -237,21 +234,18 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function list_user_administrators( $user_id, $opt = array() ) {
-		return $this->get("users/$user_id/administrators", $opt);
+	public function list_user_users( $user_id, $opt = array() ) {
+		return $this->get("users/$user_id/users", $opt);
 	}
 
 	/**
-	 * Method: add_user_administrator
+	 * Method: add_user_user
 	 * 	Add admin to user
 	 *
 	 * Access:
@@ -259,17 +253,17 @@ class AlignSeq {
 	 *
 	 * Parameters:
 	 *	$user_id - _integer_ (Required) The user identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$admin_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function add_user_administrator( $user_id, $administrator_id ) {
-		return $this->put("users/$user_id/administrators/$administrator_id");
+	public function add_user_user( $user_id, $admin_id ) {
+		return $this->put("users/$user_id/users/$admin_id");
 	}
 
 	/**
-	 * Method: remove_user_administrator
+	 * Method: remove_user_user
 	 * 	Remove admin from user
 	 *
 	 * Access:
@@ -277,18 +271,18 @@ class AlignSeq {
 	 *
 	 * Parameters:
 	 *	$user_id - _integer_ (Required) The user identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$admin_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function remove_user_administrator( $user_id, $administrator_id ) {
-		return $this->delete("users/$user_id/administrators/$administrator_id");
+	public function remove_user_user( $user_id, $admin_id ) {
+		return $this->delete("users/$user_id/users/$admin_id");
 	}
 
 	/**
 	 * Method: list_user_collaborations
-	 * 	Retrieve list of collaborations this user is a member of
+	 * 	Retrieve list of collaborations that have special access to this user
 	 *
 	 * Access:
 	 * 	Public
@@ -298,17 +292,50 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Collaboration List Response
 	 */
 	public function list_user_collaborations( $user_id, $opt = array() ) {
 		return $this->get("users/$user_id/collaborations", $opt);
+	}
+
+	/**
+	 * Method: add_user_collaboration
+	 * 	Add collaborations to user
+	 *
+	 * Access:
+	 * 	Public
+	 *
+	 * Parameters:
+	 *	$user_id - _integer_ (Required) The user identifier.
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
+	 *
+	 * Returns:
+	 * 	Collaboration List Response
+	 */
+	public function add_user_collaboration( $user_id, $collaboration_id ) {
+		return $this->put("users/$user_id/collaborations/$collaboration_id");
+	}
+
+	/**
+	 * Method: remove_user_collaboration
+	 * 	Remove collaborations from user
+	 *
+	 * Access:
+	 * 	Public
+	 *
+	 * Parameters:
+	 *	$user_id - _integer_ (Required) The user identifier.
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
+	 *
+	 * Returns:
+	 * 	Collaboration List Response
+	 */
+	public function remove_user_collaboration( $user_id, $collaboration_id ) {
+		return $this->delete("users/$user_id/collaborations/$collaboration_id");
 	}
 
 	/**
@@ -323,11 +350,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Job List Response
@@ -348,11 +372,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Dataset List Response
@@ -373,11 +394,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Executable List Response
@@ -397,11 +415,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Collaboration List Response
@@ -489,69 +504,8 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_collaboration_administrators
-	 * 	Retrieve list of administrators for this collaboration
-	 *
-	 * Access:
-	 * 	Public
-	 *
-	 * Parameters:
-	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-	 *
-	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
-	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
-	 *
-	 * Returns:
-	 * 	Administrator List Response
-	 */
-	public function list_collaboration_administrators( $collaboration_id, $opt = array() ) {
-		return $this->get("collaborations/$collaboration_id/administrators", $opt);
-	}
-
-	/**
-	 * Method: add_collaboration_administrator
-	 * 	Add admin to collaboration
-	 *
-	 * Access:
-	 * 	Public
-	 *
-	 * Parameters:
-	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
-	 *
-	 * Returns:
-	 * 	Administrator List Response
-	 */
-	public function add_collaboration_administrator( $collaboration_id, $administrator_id ) {
-		return $this->put("collaborations/$collaboration_id/administrators/$administrator_id");
-	}
-
-	/**
-	 * Method: remove_collaboration_administrator
-	 * 	Remove admin from collaboration
-	 *
-	 * Access:
-	 * 	Public
-	 *
-	 * Parameters:
-	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
-	 *
-	 * Returns:
-	 * 	Administrator List Response
-	 */
-	public function remove_collaboration_administrator( $collaboration_id, $administrator_id ) {
-		return $this->delete("collaborations/$collaboration_id/administrators/$administrator_id");
-	}
-
-	/**
 	 * Method: list_collaboration_users
-	 * 	Retrieve list of users this collaboration has access to
+	 * 	Retrieve list of users that have special access to this collaboration
 	 *
 	 * Access:
 	 * 	Public
@@ -561,11 +515,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	User List Response
@@ -576,7 +527,7 @@ class AlignSeq {
 
 	/**
 	 * Method: add_collaboration_user
-	 * 	Add user to collaboration
+	 * 	Add admin to collaboration
 	 *
 	 * Access:
 	 * 	Public
@@ -594,7 +545,7 @@ class AlignSeq {
 
 	/**
 	 * Method: remove_collaboration_user
-	 * 	Remove user from collaboration
+	 * 	Remove admin from collaboration
 	 *
 	 * Access:
 	 * 	Public
@@ -611,8 +562,8 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_collaboration_jobs
-	 * 	Retrieve list of jobs this collaboration has access to
+	 * Method: list_collaboration_collaborations
+	 * 	Retrieve list of collaborations that have special access to this collaborations
 	 *
 	 * Access:
 	 * 	Public
@@ -622,175 +573,50 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
-	 * 	Job List Response
+	 * 	Collaboration List Response
 	 */
-	public function list_collaboration_jobs( $collaboration_id, $opt = array() ) {
-		return $this->get("collaborations/$collaboration_id/jobs", $opt);
+	public function list_collaboration_collaborations( $collaboration_id, $opt = array() ) {
+		return $this->get("collaborations/$collaboration_id/collaborations", $opt);
 	}
 
 	/**
-	 * Method: add_collaboration_job
-	 * 	Add job to collaboration
+	 * Method: add_collaboration_collaboration
+	 * 	Add collaborations to collaborations
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$job_id - _integer_ (Required) The job identifier.
+	 *	$collaboration_id2 - _integer_ (Required) The collaboration identifier.
 	 *
 	 * Returns:
-	 * 	Job List Response
+	 * 	Collaboration List Response
 	 */
-	public function add_collaboration_job( $collaboration_id, $job_id ) {
-		return $this->put("collaborations/$collaboration_id/jobs/$job_id");
+	public function add_collaboration_collaboration( $collaboration_id, $collaboration_id2 ) {
+		return $this->put("collaborations/$collaboration_id/collaborations/$collaboration_id2");
 	}
 
 	/**
-	 * Method: remove_collaboration_job
-	 * 	Remove job from collaboration
+	 * Method: remove_collaboration_collaboration
+	 * 	Remove collaborations from collaborations
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$job_id - _integer_ (Required) The job identifier.
+	 *	$collaboration_id2 - _integer_ (Required) The collaboration identifier.
 	 *
 	 * Returns:
-	 * 	Job List Response
+	 * 	Collaboration List Response
 	 */
-	public function remove_collaboration_job( $collaboration_id, $job_id ) {
-		return $this->delete("collaborations/$collaboration_id/jobs/$job_id");
-	}
-
-	/**
-	 * Method: list_collaboration_datasets
-	 * 	Retrieve list of datasets this collaboration has access to
-	 *
-	 * Access:
-	 * 	Public
-	 *
-	 * Parameters:
-	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-	 *
-	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
-	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
-	 *
-	 * Returns:
-	 * 	Dataset List Response
-	 */
-	public function list_collaboration_datasets( $collaboration_id, $opt = array() ) {
-		return $this->get("collaborations/$collaboration_id/datasets", $opt);
-	}
-
-	/**
-	 * Method: add_collaboration_dataset
-	 * 	Add dataset to collaboration
-	 *
-	 * Access:
-	 * 	Public
-	 *
-	 * Parameters:
-	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$dataset_id - _integer_ (Required) The dataset identifier.
-	 *
-	 * Returns:
-	 * 	Dataset List Response
-	 */
-	public function add_collaboration_dataset( $collaboration_id, $dataset_id ) {
-		return $this->put("collaborations/$collaboration_id/datasets/$dataset_id");
-	}
-
-	/**
-	 * Method: remove_collaboration_dataset
-	 * 	Remove dataset from collaboration
-	 *
-	 * Access:
-	 * 	Public
-	 *
-	 * Parameters:
-	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$dataset_id - _integer_ (Required) The dataset identifier.
-	 *
-	 * Returns:
-	 * 	Dataset List Response
-	 */
-	public function remove_collaboration_dataset( $collaboration_id, $dataset_id ) {
-		return $this->delete("collaborations/$collaboration_id/datasets/$dataset_id");
-	}
-
-	/**
-	 * Method: list_collaboration_executables
-	 * 	Retrieve list of executables this collaboration has access to
-	 *
-	 * Access:
-	 * 	Public
-	 *
-	 * Parameters:
-	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-	 *
-	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
-	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
-	 *
-	 * Returns:
-	 * 	Executable List Response
-	 */
-	public function list_collaboration_executables( $collaboration_id, $opt = array() ) {
-		return $this->get("collaborations/$collaboration_id/executables", $opt);
-	}
-
-	/**
-	 * Method: add_collaboration_executable
-	 * 	Add executable to collaboration
-	 *
-	 * Access:
-	 * 	Public
-	 *
-	 * Parameters:
-	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$executable_id - _integer_ (Required) The executable identifier.
-	 *
-	 * Returns:
-	 * 	Executable List Response
-	 */
-	public function add_collaboration_executable( $collaboration_id, $executable_id ) {
-		return $this->put("collaborations/$collaboration_id/executables/$executable_id");
-	}
-
-	/**
-	 * Method: remove_collaboration_executable
-	 * 	Remove executable from collaboration
-	 *
-	 * Access:
-	 * 	Public
-	 *
-	 * Parameters:
-	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
-	 *	$executable_id - _integer_ (Required) The executable identifier.
-	 *
-	 * Returns:
-	 * 	Executable List Response
-	 */
-	public function remove_collaboration_executable( $collaboration_id, $executable_id ) {
-		return $this->delete("collaborations/$collaboration_id/executables/$executable_id");
+	public function remove_collaboration_collaboration( $collaboration_id, $collaboration_id2 ) {
+		return $this->delete("collaborations/$collaboration_id/collaborations/$collaboration_id2");
 	}
 
 	/**
@@ -804,11 +630,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Job List Response
@@ -906,8 +729,8 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_job_administrators
-	 * 	Retrieve list of administrators for this job
+	 * Method: list_job_users
+	 * 	Retrieve list of users that have special access to this jobs
 	 *
 	 * Access:
 	 * 	Public
@@ -917,58 +740,55 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function list_job_administrators( $job_id, $opt = array() ) {
-		return $this->get("jobs/$job_id/administrators", $opt);
+	public function list_job_users( $job_id, $opt = array() ) {
+		return $this->get("jobs/$job_id/users", $opt);
 	}
 
 	/**
-	 * Method: add_job_administrator
-	 * 	Add admin to job
+	 * Method: add_job_user
+	 * 	Add admin to jobs
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$job_id - _integer_ (Required) The job identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$user_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function add_job_administrator( $job_id, $administrator_id ) {
-		return $this->put("jobs/$job_id/administrators/$administrator_id");
+	public function add_job_user( $job_id, $user_id ) {
+		return $this->put("jobs/$job_id/users/$user_id");
 	}
 
 	/**
-	 * Method: remove_job_administrator
-	 * 	Remove admin from job
+	 * Method: remove_job_user
+	 * 	Remove admin from jobs
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$job_id - _integer_ (Required) The job identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$user_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function remove_job_administrator( $job_id, $administrator_id ) {
-		return $this->delete("jobs/$job_id/administrators/$administrator_id");
+	public function remove_job_user( $job_id, $user_id ) {
+		return $this->delete("jobs/$job_id/users/$user_id");
 	}
 
 	/**
 	 * Method: list_job_collaborations
-	 * 	Retrieve list of collaborations this job is part of
+	 * 	Retrieve list of collaborations that have special access to this jobs
 	 *
 	 * Access:
 	 * 	Public
@@ -978,11 +798,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Collaboration List Response
@@ -992,53 +809,39 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_job_datasets
-	 * 	Retrieve list of datasets this job used
+	 * Method: add_job_collaboration
+	 * 	Add collaborations to jobs
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$job_id - _integer_ (Required) The job identifier.
-	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-	 *
-	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
-	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
 	 *
 	 * Returns:
-	 * 	Dataset List Response
+	 * 	Collaboration List Response
 	 */
-	public function list_job_datasets( $job_id, $opt = array() ) {
-		return $this->get("jobs/$job_id/datasets", $opt);
+	public function add_job_collaboration( $job_id, $collaboration_id ) {
+		return $this->put("jobs/$job_id/collaborations/$collaboration_id");
 	}
 
 	/**
-	 * Method: list_job_executables
-	 * 	Retrieve list of executables this job used
+	 * Method: remove_job_collaboration
+	 * 	Remove collaborations from jobs
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$job_id - _integer_ (Required) The job identifier.
-	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-	 *
-	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
-	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
 	 *
 	 * Returns:
-	 * 	Executable List Response
+	 * 	Collaboration List Response
 	 */
-	public function list_job_executables( $job_id, $opt = array() ) {
-		return $this->get("jobs/$job_id/executables", $opt);
+	public function remove_job_collaboration( $job_id, $collaboration_id ) {
+		return $this->delete("jobs/$job_id/collaborations/$collaboration_id");
 	}
 
 	/**
@@ -1053,11 +856,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Hit List Response
@@ -1077,12 +877,9 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	datatype - _integer_ (Optional) Type of data represented by sequences in dataset: 1 = nucleotide, 2 = protein
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Dataset List Response
@@ -1178,8 +975,8 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_dataset_administrators
-	 * 	Retrieve list of administrators for this dataset
+	 * Method: list_dataset_users
+	 * 	Retrieve list of users that have special access to this datasets
 	 *
 	 * Access:
 	 * 	Public
@@ -1189,58 +986,55 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function list_dataset_administrators( $dataset_id, $opt = array() ) {
-		return $this->get("datasets/$dataset_id/administrators", $opt);
+	public function list_dataset_users( $dataset_id, $opt = array() ) {
+		return $this->get("datasets/$dataset_id/users", $opt);
 	}
 
 	/**
-	 * Method: add_dataset_administrator
-	 * 	Add admin to dataset
+	 * Method: add_dataset_user
+	 * 	Add admin to datasets
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$dataset_id - _integer_ (Required) The dataset identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$user_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function add_dataset_administrator( $dataset_id, $administrator_id ) {
-		return $this->put("datasets/$dataset_id/administrators/$administrator_id");
+	public function add_dataset_user( $dataset_id, $user_id ) {
+		return $this->put("datasets/$dataset_id/users/$user_id");
 	}
 
 	/**
-	 * Method: remove_dataset_administrator
-	 * 	Remove admin from dataset
+	 * Method: remove_dataset_user
+	 * 	Remove admin from datasets
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$dataset_id - _integer_ (Required) The dataset identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$user_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function remove_dataset_administrator( $dataset_id, $administrator_id ) {
-		return $this->delete("datasets/$dataset_id/administrators/$administrator_id");
+	public function remove_dataset_user( $dataset_id, $user_id ) {
+		return $this->delete("datasets/$dataset_id/users/$user_id");
 	}
 
 	/**
 	 * Method: list_dataset_collaborations
-	 * 	Retrieve list of collaborations this dataset is a part of
+	 * 	Retrieve list of collaborations that have special access to this datasets
 	 *
 	 * Access:
 	 * 	Public
@@ -1250,11 +1044,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Collaboration List Response
@@ -1264,28 +1055,39 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_dataset_jobs
-	 * 	Retrieve list of jobs that used this dataset
+	 * Method: add_dataset_collaboration
+	 * 	Add collaborations to datasets
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$dataset_id - _integer_ (Required) The dataset identifier.
-	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-	 *
-	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
-	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
 	 *
 	 * Returns:
-	 * 	Job List Response
+	 * 	Collaboration List Response
 	 */
-	public function list_dataset_jobs( $dataset_id, $opt = array() ) {
-		return $this->get("datasets/$dataset_id/jobs", $opt);
+	public function add_dataset_collaboration( $dataset_id, $collaboration_id ) {
+		return $this->put("datasets/$dataset_id/collaborations/$collaboration_id");
+	}
+
+	/**
+	 * Method: remove_dataset_collaboration
+	 * 	Remove collaborations from datasets
+	 *
+	 * Access:
+	 * 	Public
+	 *
+	 * Parameters:
+	 *	$dataset_id - _integer_ (Required) The dataset identifier.
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
+	 *
+	 * Returns:
+	 * 	Collaboration List Response
+	 */
+	public function remove_dataset_collaboration( $dataset_id, $collaboration_id ) {
+		return $this->delete("datasets/$dataset_id/collaborations/$collaboration_id");
 	}
 
 	/**
@@ -1300,11 +1102,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Sequence List Response
@@ -1324,14 +1123,11 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	datatype_query - _integer_ (Optional) todo
 	 *	datatype_target - _integer_ (Optional) todo
 	 *	institution - _string_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Executable List Response
@@ -1433,8 +1229,8 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_executable_administrators
-	 * 	Retrieve list of administrators for this executable
+	 * Method: list_executable_users
+	 * 	Retrieve list of users that have special access to this executables
 	 *
 	 * Access:
 	 * 	Public
@@ -1444,58 +1240,55 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function list_executable_administrators( $executable_id, $opt = array() ) {
-		return $this->get("executables/$executable_id/administrators", $opt);
+	public function list_executable_users( $executable_id, $opt = array() ) {
+		return $this->get("executables/$executable_id/users", $opt);
 	}
 
 	/**
-	 * Method: add_executable_administrator
-	 * 	Add admin to executable
+	 * Method: add_executable_user
+	 * 	Add admin to executables
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$executable_id - _integer_ (Required) The executable identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$user_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function add_executable_administrator( $executable_id, $administrator_id ) {
-		return $this->put("executables/$executable_id/administrators/$administrator_id");
+	public function add_executable_user( $executable_id, $user_id ) {
+		return $this->put("executables/$executable_id/users/$user_id");
 	}
 
 	/**
-	 * Method: remove_executable_administrator
-	 * 	Remove admin from executable
+	 * Method: remove_executable_user
+	 * 	Remove admin from executables
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$executable_id - _integer_ (Required) The executable identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$user_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function remove_executable_administrator( $executable_id, $administrator_id ) {
-		return $this->delete("executables/$executable_id/administrators/$administrator_id");
+	public function remove_executable_user( $executable_id, $user_id ) {
+		return $this->delete("executables/$executable_id/users/$user_id");
 	}
 
 	/**
 	 * Method: list_executable_collaborations
-	 * 	Retrieve list of collaborations this executable is a part of
+	 * 	Retrieve list of collaborations that have special access to this executables
 	 *
 	 * Access:
 	 * 	Public
@@ -1505,11 +1298,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Collaboration List Response
@@ -1519,28 +1309,39 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_executable_jobs
-	 * 	Retrieve list of executables this job is a part of
+	 * Method: add_executable_collaboration
+	 * 	Add collaborations to executables
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$executable_id - _integer_ (Required) The executable identifier.
-	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-	 *
-	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
-	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
 	 *
 	 * Returns:
-	 * 	Job List Response
+	 * 	Collaboration List Response
 	 */
-	public function list_executable_jobs( $executable_id, $opt = array() ) {
-		return $this->get("executables/$executable_id/jobs", $opt);
+	public function add_executable_collaboration( $executable_id, $collaboration_id ) {
+		return $this->put("executables/$executable_id/collaborations/$collaboration_id");
+	}
+
+	/**
+	 * Method: remove_executable_collaboration
+	 * 	Remove collaborations from executables
+	 *
+	 * Access:
+	 * 	Public
+	 *
+	 * Parameters:
+	 *	$executable_id - _integer_ (Required) The executable identifier.
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
+	 *
+	 * Returns:
+	 * 	Collaboration List Response
+	 */
+	public function remove_executable_collaboration( $executable_id, $collaboration_id ) {
+		return $this->delete("executables/$executable_id/collaborations/$collaboration_id");
 	}
 
 	/**
@@ -1554,11 +1355,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Sequence List Response
@@ -1623,8 +1421,8 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_sequence_administrators
-	 * 	Retrieve list of administrators for this sequence
+	 * Method: list_sequence_users
+	 * 	Retrieve list of users that have special access to this sequences
 	 *
 	 * Access:
 	 * 	Public
@@ -1634,58 +1432,55 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function list_sequence_administrators( $sequence_id, $opt = array() ) {
-		return $this->get("sequences/$sequence_id/administrators", $opt);
+	public function list_sequence_users( $sequence_id, $opt = array() ) {
+		return $this->get("sequences/$sequence_id/users", $opt);
 	}
 
 	/**
-	 * Method: add_sequence_administrator
-	 * 	Add admin to sequence
+	 * Method: add_sequence_user
+	 * 	Add admin to sequences
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$sequence_id - _integer_ (Required) The sequence identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$user_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function add_sequence_administrator( $sequence_id, $administrator_id ) {
-		return $this->put("sequences/$sequence_id/administrators/$administrator_id");
+	public function add_sequence_user( $sequence_id, $user_id ) {
+		return $this->put("sequences/$sequence_id/users/$user_id");
 	}
 
 	/**
-	 * Method: remove_sequence_administrator
-	 * 	Remove admin from sequence
+	 * Method: remove_sequence_user
+	 * 	Remove admin from sequences
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$sequence_id - _integer_ (Required) The sequence identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$user_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function remove_sequence_administrator( $sequence_id, $administrator_id ) {
-		return $this->delete("sequences/$sequence_id/administrators/$administrator_id");
+	public function remove_sequence_user( $sequence_id, $user_id ) {
+		return $this->delete("sequences/$sequence_id/users/$user_id");
 	}
 
 	/**
 	 * Method: list_sequence_collaborations
-	 * 	Retrieve list of collaborations this sequence is a part of
+	 * 	Retrieve list of collaborations that have special access to this sequences
 	 *
 	 * Access:
 	 * 	Public
@@ -1695,11 +1490,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Collaboration List Response
@@ -1709,28 +1501,39 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_sequence_datasets
-	 * 	Retrieve list of datasets this sequence is a part of
+	 * Method: add_sequence_collaboration
+	 * 	Add collaborations to sequences
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$sequence_id - _integer_ (Required) The sequence identifier.
-	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
-	 *
-	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
-	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
-	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
 	 *
 	 * Returns:
-	 * 	Dataset List Response
+	 * 	Collaboration List Response
 	 */
-	public function list_sequence_datasets( $sequence_id, $opt = array() ) {
-		return $this->get("sequences/$sequence_id/datasets", $opt);
+	public function add_sequence_collaboration( $sequence_id, $collaboration_id ) {
+		return $this->put("sequences/$sequence_id/collaborations/$collaboration_id");
+	}
+
+	/**
+	 * Method: remove_sequence_collaboration
+	 * 	Remove collaborations from sequences
+	 *
+	 * Access:
+	 * 	Public
+	 *
+	 * Parameters:
+	 *	$sequence_id - _integer_ (Required) The sequence identifier.
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
+	 *
+	 * Returns:
+	 * 	Collaboration List Response
+	 */
+	public function remove_sequence_collaboration( $sequence_id, $collaboration_id ) {
+		return $this->delete("sequences/$sequence_id/collaborations/$collaboration_id");
 	}
 
 	/**
@@ -1744,11 +1547,8 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Hit List Response
@@ -1775,8 +1575,8 @@ class AlignSeq {
 	}
 
 	/**
-	 * Method: list_hit_administrators
-	 * 	Retrieve list of administrators for this hit
+	 * Method: list_hit_users
+	 * 	Retrieve list of users that have special access to this hits
 	 *
 	 * Access:
 	 * 	Public
@@ -1786,58 +1586,55 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function list_hit_administrators( $hit_id, $opt = array() ) {
-		return $this->get("hits/$hit_id/administrators", $opt);
+	public function list_hit_users( $hit_id, $opt = array() ) {
+		return $this->get("hits/$hit_id/users", $opt);
 	}
 
 	/**
-	 * Method: add_hit_administrator
-	 * 	Add admin to hit
+	 * Method: add_hit_user
+	 * 	Add admin to hits
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$hit_id - _integer_ (Required) The hit identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$user_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function add_hit_administrator( $hit_id, $administrator_id ) {
-		return $this->put("hits/$hit_id/administrators/$administrator_id");
+	public function add_hit_user( $hit_id, $user_id ) {
+		return $this->put("hits/$hit_id/users/$user_id");
 	}
 
 	/**
-	 * Method: remove_hit_administrator
-	 * 	Remove admin from hit
+	 * Method: remove_hit_user
+	 * 	Remove admin from hits
 	 *
 	 * Access:
 	 * 	Public
 	 *
 	 * Parameters:
 	 *	$hit_id - _integer_ (Required) The hit identifier.
-	 *	$administrator_id - _integer_ (Required) The administrator identifier.
+	 *	$user_id - _integer_ (Required) The user identifier.
 	 *
 	 * Returns:
-	 * 	Administrator List Response
+	 * 	User List Response
 	 */
-	public function remove_hit_administrator( $hit_id, $administrator_id ) {
-		return $this->delete("hits/$hit_id/administrators/$administrator_id");
+	public function remove_hit_user( $hit_id, $user_id ) {
+		return $this->delete("hits/$hit_id/users/$user_id");
 	}
 
 	/**
 	 * Method: list_hit_collaborations
-	 * 	Retrieve list of collaborations this hit is a part of
+	 * 	Retrieve list of collaborations that have special access to this hits
 	 *
 	 * Access:
 	 * 	Public
@@ -1847,17 +1644,50 @@ class AlignSeq {
 	 *	$opt - _array_ (Optional) An associative array of parameters that can have the keys listed in the following section.
 	 *
 	 * Keys for the $opt parameter:
-	 *	created - _boolean_ (Optional) todo
 	 *	page - _integer_ (Optional) Which page to view. Zero-indexed, so the first page is 0.
 	 *	page_size - _integer_ (Optional) How many resources to return in each list page. The maximum is 1000.
-	 *	public - _boolean_ (Optional) todo
-	 *	shared - _boolean_ (Optional) todo
 	 *
 	 * Returns:
 	 * 	Collaboration List Response
 	 */
 	public function list_hit_collaborations( $hit_id, $opt = array() ) {
 		return $this->get("hits/$hit_id/collaborations", $opt);
+	}
+
+	/**
+	 * Method: add_hit_collaboration
+	 * 	Add collaborations to hits
+	 *
+	 * Access:
+	 * 	Public
+	 *
+	 * Parameters:
+	 *	$hit_id - _integer_ (Required) The hit identifier.
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
+	 *
+	 * Returns:
+	 * 	Collaboration List Response
+	 */
+	public function add_hit_collaboration( $hit_id, $collaboration_id ) {
+		return $this->put("hits/$hit_id/collaborations/$collaboration_id");
+	}
+
+	/**
+	 * Method: remove_hit_collaboration
+	 * 	Remove collaborations from hits
+	 *
+	 * Access:
+	 * 	Public
+	 *
+	 * Parameters:
+	 *	$hit_id - _integer_ (Required) The hit identifier.
+	 *	$collaboration_id - _integer_ (Required) The collaboration identifier.
+	 *
+	 * Returns:
+	 * 	Collaboration List Response
+	 */
+	public function remove_hit_collaboration( $hit_id, $collaboration_id ) {
+		return $this->delete("hits/$hit_id/collaborations/$collaboration_id");
 	}
 
 }
