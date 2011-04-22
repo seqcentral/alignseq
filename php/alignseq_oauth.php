@@ -10,6 +10,19 @@ class AlignSeq_OAuth {
 		$this->_consumer = new OAuthSimple($consumer_key, $consumer_secret);
 	}
 
+	private function flatten_array($arr, $prefix = NULL) {
+		$flattened = array();
+		foreach($arr as $k => $v) {
+			$name = ($prefix) ? $prefix.'['.$k.']' : $k;
+			if (is_array($v)) {
+				$flattened = array_merge($flattened, $this->flatten_array($v, $name));
+			} else {
+				$flattened[$name] = $v;
+			}
+		}
+		return $flattened;
+	}
+
 	public function make_request($method, $url, $opt) {
 		$method = strtoupper($method);
 
@@ -18,7 +31,7 @@ class AlignSeq_OAuth {
 		$obj = $this->_consumer->sign(array(
 			'action'=> $method,
 			'path'=> $url,
-			'parameters'=> $opt
+			'parameters'=> $this->flatten_array($opt)
 		));
 
 		$ch = curl_init();
