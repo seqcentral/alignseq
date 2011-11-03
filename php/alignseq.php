@@ -7,8 +7,9 @@ class AlignSeq {
 	const NUCL_SEQ = 1;
 	const PROT_SEQ = 2;
 
-	const VERSION = '1.0-rc2';
+	const VERSION = '1.0-rc3';
 	const SERVER = 'http://api.seqcentral.com/alignseq';
+	// const SERVER = 'http://api.localhost/alignseq';
 
 	public $url = '';
 	public $response = '';
@@ -42,9 +43,14 @@ class AlignSeq {
 	private function make_oauth_request( $method, $url, $opt ) {
 		$this->url = $url;
 		/* If you wish to use your own OAuth client, make your changes here and in '__construct()' */
-		$this->response = $this->_oauth->make_request($method, $url, $opt);
+		$this->response = $this->_oauth->make_request($method, $url, (!empty($opt)) ? array('json' => json_encode($opt)) : NULL);
 		return json_decode($this->response->body);
 	}
+
+	public function options( $uri, $opt = array() ) {
+		return $this->make_oauth_request('options', self::SERVER.'/'.self::VERSION.'/'.$uri, $opt);
+	}
+
 
 	/**
 	 * Method: get
