@@ -31,7 +31,7 @@ class AlignSeq_OAuth {
 		$obj = $this->_consumer->sign(array(
 			'action'=> $method,
 			'path'=> $url,
-			'parameters'=> $this->flatten_array($opt)
+			'parameters'=> $opt
 		));
 
 		$ch = curl_init();
