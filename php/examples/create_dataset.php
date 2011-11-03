@@ -12,7 +12,11 @@ $alignseq_client = new AlignSeq($config['oauth']);
 /* Keep track of our files */
 $my_files = array(
 	array(
-		'filename' => '/tmp/benchmark.nt.100',
+		'filename' => '/tmp/Benchmark.nt.100',
+		'md5' => md5_file('/tmp/benchmark.nt.100')
+	),
+	array(
+		'filename' => '/tmp/mysql.sock',
 		'md5' => md5_file('/tmp/benchmark.nt.100')
 	)
 );
@@ -32,6 +36,7 @@ $response = $alignseq_client->create_dataset("new dataset", AlignSeq::NUCL_SEQ, 
 
 /* Act on the response... */
 print_r($response);
+print_r($alignseq_client->response);
 
 /* Save the dataset id */
 $dataset_id = $response->data->id;
