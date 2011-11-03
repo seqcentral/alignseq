@@ -14,6 +14,6 @@ config.read('../../alignseq.conf')
 client = alignseq.AlignSeq({ 'consumer_key': config.get('oauth', 'consumer_key'), \
     'consumer_secret': config.get('oauth', 'consumer_secret')})
 
-response = client.list_jobs()
+response = client.update_dataset(7, {'name': '122'})
 
 print response
