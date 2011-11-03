@@ -14,3 +14,4 @@ $response = $alignseq_client->list_datasets();
 
 /* Act on the response... */
 print_r($response);
+print_r($alignseq_client->response);

@@ -6,8 +6,9 @@ class AlignSeq(object):
     NUCL_SEQ = 1
     PROT_SEQ = 2
 
-    VERSION = '1.0-rc2'
+    VERSION = '1.0-rc3'
     SERVER = 'http://api.seqcentral.com/alignseq'
+    # SERVER = 'http://api.localhost/alignseq'
 
     url = ''
     response = ''
@@ -37,9 +38,12 @@ class AlignSeq(object):
     def __make_oauth_request( self, method, url, opt = {} ):
         self.url = url
         # If you wish to use your own OAuth client, make your changes here and in '__init__()'
-        self.response = self._oauth.make_request(method, url, opt)[1]
+        self.response = self._oauth.make_request(method, url, {'json':json.dumps(opt)} if opt else opt )[1]
         return json.loads(self.response)
 
+
+    def options( self, uri, opt = {} ):
+        return self.__make_oauth_request('OPTIONS', '%s/%s/%s' % (self.SERVER, self.VERSION, uri), opt)
 
     #
      # Method: get
